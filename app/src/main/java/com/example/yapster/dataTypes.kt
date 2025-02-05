@@ -7,7 +7,13 @@ data class SignInResult(
 
 data class UserData(
     val userId: String,
-    val username: String,
+    val username: String?,
     val ppurl: String?,
-    val email: String
+    val email: String?
+)
+
+data class AppState(
+    val isSignedIn: Boolean= false,
+    val userData: UserData?= null,
+
 )

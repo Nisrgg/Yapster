@@ -45,11 +45,10 @@ class GoogleAuthUiClient(
     }
 
 
-
     suspend fun signInWithIntent(intent: Intent): SignInResult {
         viewModel.resetState()
         val cred = oneTapClient.getSignInCredentialFromIntent(intent)
-        val googleIdToken =  cred.googleIdToken
+        val googleIdToken = cred.googleIdToken
         val googleCred = GoogleAuthProvider.getCredential(googleIdToken, null)
         return try {
             val user = auth.signInWithCredential(googleCred).await().user
@@ -60,12 +59,12 @@ class GoogleAuthUiClient(
                         email = email.toString(),
                         userId = uid,
                         username = displayName.toString(),
-                        ppurl = photoUrl.toString().substring(0,photoUrl.toString().length-6)
+                        ppurl = photoUrl.toString().substring(0, photoUrl.toString().length - 6)
                     )
                 }
             )
 
-        } catch (e: Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
             if (e is CancellationException) throw e
             SignInResult(
@@ -73,5 +72,14 @@ class GoogleAuthUiClient(
                 errorMessage = e.message
             )
         }
+    }
+
+    fun getSignedInUser(): UserData? = auth.currentUser?.run {
+        UserData(
+            email = email.toString(),
+            username = displayName,
+            userId = uid,
+            ppurl = photoUrl.toString()
+        )
     }
 }

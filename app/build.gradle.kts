@@ -1,7 +1,17 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.jetbrains.kotlin.android) // Use this instead of direct version
     alias(libs.plugins.google.gms.google.services)
+    kotlin("plugin.serialization") version "1.9.0" // Match the kotlin version
+}
+
+configurations.all {
+    resolutionStrategy {
+        force("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
+        force("org.jetbrains.kotlin:kotlin-stdlib-common:1.9.0")
+        force("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.0")
+        force("org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.0")
+    }
 }
 
 android {
@@ -41,7 +51,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.1"
+        kotlinCompilerExtensionVersion = "1.5.1" // Updated
     }
     packaging {
         resources {
@@ -51,7 +61,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -62,6 +71,12 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.firebase.auth)
     implementation(libs.play.services.auth)
+    implementation(libs.kotlinx.serialization.json)
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0")
+
+    // ✅ Updated Navigation Compose version
+    implementation(libs.androidx.navigation.compose.v280alpha01)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

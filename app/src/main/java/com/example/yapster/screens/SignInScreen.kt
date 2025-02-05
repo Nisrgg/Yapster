@@ -32,7 +32,7 @@ import com.example.yapster.R
 
 @Preview(showSystemUi = true)
 @Composable
-fun SignInScreen(
+fun SignInScreenUI(
     onSignInClick:() -> Unit
 ) {
 
