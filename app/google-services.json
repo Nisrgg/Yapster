@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "852017931122",
+    "project_id": "pingme-7f69d",
+    "storage_bucket": "pingme-7f69d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852017931122:android:1b29f1938c02fcad15b3eb",
+        "android_client_info": {
+          "package_name": "com.example.yapster"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "852017931122-gndhp4qj8fac06ritb7qjlp5ons9dgfu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.yapster",
+            "certificate_hash": "2adac1e5dcf80c4778a54ab23ee8d8c656f3bd60"
+          }
+        },
+        {
+          "client_id": "852017931122-r3qtjm8cnpf4et7cc78helrkbj4a89d7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClqh1Jw8vCYQZ0aU9IGxfH4-UzXKJPYvk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "852017931122-r3qtjm8cnpf4et7cc78helrkbj4a89d7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
