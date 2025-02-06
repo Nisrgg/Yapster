@@ -63,36 +63,50 @@ class MainActivity : ComponentActivity() {
                         val state by viewModel.state.collectAsState()
                         val navController = rememberNavController()
 
-                        NavHost(navController = navController, startDestination = Screen.Start.route) {
-                            composable(Screen.Start.route) {
-                                LaunchedEffect(Unit) {
+                        NavHost(navController = navController, startDestination = StartScreen) {
+
+                            composable<StartScreen> {
+                                LaunchedEffect(key1 = Unit) {
                                     val userData = googleAuthUiClient.getSignedInUser()
                                     if (userData != null) {
-                                        navController.navigate(Screen.Chats.route)
+                                        navController.navigate(ChatsScreen)
                                     } else {
-                                        navController.navigate(Screen.SignIn.route)
+                                        navController.navigate(SignInScreen)
                                     }
                                 }
-                            }
 
-                            composable(Screen.Chats.route) {
+
+                            }
+                            composable<ChatsScreen> {
                                 ChatsScreenUI()
                             }
+                            composable<SignInScreen> {
+                                val launcher =
+                                    rememberLauncherForActivityResult(contract = ActivityResultContracts.StartIntentSenderForResult(),
+                                        onResult = { result ->
+                                            if (result.resultCode == RESULT_OK) {
+                                                lifecycleScope.launch {
+                                                    val signInResult =
+                                                        googleAuthUiClient.signInWithIntent(
+                                                            intent = result.data ?: return@launch
+                                                        )
+                                                    //viewModel.onSignInResult(signInResult)
+                                                }
 
-                            composable(Screen.SignIn.route) {
-                                val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
-                                    if (result.resultCode == RESULT_OK) {
-                                        lifecycleScope.launch {
-                                            val signInResult = googleAuthUiClient.signInWithIntent(result.data ?: return@launch)
-                                            // Handle the sign-in result here
-                                        }
-                                    }
+                                            }
+                                        })
+                                LaunchedEffect(key1 = state.isSignedIn) {
+
                                 }
-
                                 SignInScreenUI(onSignInClick = {
                                     lifecycleScope.launch {
-                                        val signInIntentSender = googleAuthUiClient.signIn()
-                                        launcher.launch(IntentSenderRequest.Builder(signInIntentSender ?: return@launch).build())
+                                        val signInSender = googleAuthUiClient.signIn()
+                                        launcher.launch(
+                                            IntentSenderRequest.Builder(
+                                                signInSender ?: return@launch
+                                            ).build()
+                                        )
+
                                     }
                                 })
                             }
@@ -104,20 +118,5 @@ class MainActivity : ComponentActivity() {
 
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!", modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    YapsterTheme {
-        Greeting("Android")
     }
 }

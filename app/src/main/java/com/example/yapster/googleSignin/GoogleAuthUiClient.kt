@@ -19,6 +19,7 @@ class GoogleAuthUiClient(
     private val context: Context,
     private val oneTapClient: SignInClient,
     val viewModel: ChatViewModel
+
 ) {
     private val auth = Firebase.auth
 
@@ -38,12 +39,11 @@ class GoogleAuthUiClient(
     private fun buildSignInRequest(): BeginSignInRequest {
         return BeginSignInRequest.builder().setGoogleIdTokenRequestOptions(
             GoogleIdTokenRequestOptions.builder().setSupported(true)
-                .setFilterByAuthorizedAccounts(false)
-                .setServerClientId("852017931122-r3qtjm8cnpf4et7cc78helrkbj4a89d7.apps.googleusercontent.com")
-                .build()
+                .setFilterByAuthorizedAccounts(false).setServerClientId(
+                "852017931122-r3qtjm8cnpf4et7cc78helrkbj4a89d7.apps.googleusercontent.com"
+            ).build()
         ).setAutoSelectEnabled(true).build()
     }
-
 
     suspend fun signInWithIntent(intent: Intent): SignInResult {
         viewModel.resetState()
@@ -60,6 +60,7 @@ class GoogleAuthUiClient(
                         userId = uid,
                         username = displayName.toString(),
                         ppurl = photoUrl.toString().substring(0, photoUrl.toString().length - 6)
+
                     )
                 }
             )
@@ -72,6 +73,7 @@ class GoogleAuthUiClient(
                 errorMessage = e.message
             )
         }
+
     }
 
     fun getSignedInUser(): UserData? = auth.currentUser?.run {
@@ -82,4 +84,6 @@ class GoogleAuthUiClient(
             ppurl = photoUrl.toString()
         )
     }
+
+
 }
